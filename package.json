@@ -1,0 +1,26 @@
+{
+    "author": "@stevoperisic",
+    "dependencies": {
+        "botkit": "0.2.2"
+    },
+    "description": "A slack bot written in node that does something cool.",
+    "engines": {
+        "node": "4.0.0"
+    },
+    "keywords": [
+        "bots",
+        "chatbots",
+        "slack"
+    ],
+    "license": "MIT",
+    "main": "mybot.js",
+    "name": "myfirstbot",
+    "repository": {
+        "type": "git",
+        "url": "path to source where your bot lives"
+    },
+    "scripts": {
+        "start": "node bot.js"
+    },
+    "version": "0.2.0"
+}
