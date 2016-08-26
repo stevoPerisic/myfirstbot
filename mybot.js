@@ -1,6 +1,4 @@
-// Slack API Token - xoxb-72751703124-nwFbO4LEOloSp7Ryb2YZHOhq
-
-var SlackAPIKey = 'xoxb-72751703124-nwFbO4LEOloSp7Ryb2YZHOhq';
+var SlackAPIKey = 'test';
 var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
