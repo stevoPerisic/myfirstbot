@@ -18,3 +18,9 @@ controller.hears('hello',['direct_message','direct_mention','mention'],function(
   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
 
 });
+
+controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
+
+  bot.reply(message,'Why sure! I love luncahbles!');
+
+});
