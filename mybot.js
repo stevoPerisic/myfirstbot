@@ -1,8 +1,8 @@
-var SlackAPIKey = 'test';
+var SlackAPIKey = 'xoxb-72751703124-CT4J7QW4mNteQQrJua6EwvXd';
 var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
-  debug: false
+  debug: true
 });
 
 // connect the bot to a stream of messages

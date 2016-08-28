@@ -1,7 +1,8 @@
 {
     "author": "@stevoperisic",
     "dependencies": {
-        "botkit": "0.2.2"
+        "botkit": "0.2.2",
+        "natural": "0.4.0"
     },
     "description": "A slack bot written in node that does something cool.",
     "engines": {
