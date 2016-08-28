@@ -3,4 +3,4 @@ node_modules
 *.log
 
 # adding this file here so we will have to load these in Docker via a bash script
-.bash_profile
+.env

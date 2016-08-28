@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var SlackAPIKey = process.env.SLACK_API_KEY;
 var Botkit = require('botkit');
 
