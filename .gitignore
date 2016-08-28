@@ -1,4 +1,6 @@
 .DS_Store
 node_modules
 *.log
-.env
+
+# adding this file here so we will have to load these in Docker via a bash script
+.bash_profile

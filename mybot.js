@@ -1,4 +1,4 @@
-var SlackAPIKey = 'xoxb-72751703124-CT4J7QW4mNteQQrJua6EwvXd';
+var SlackAPIKey = process.env.SLACK_API_KEY;
 var Botkit = require('botkit');
 
 var controller = Botkit.slackbot({
