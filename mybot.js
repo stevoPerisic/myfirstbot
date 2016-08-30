@@ -142,6 +142,8 @@ var Botkit = require('botkit');
 	});
 
 	app.post('/webhook', function (req, res) {
+		console.log('FB REQUEST')
+		console.log(req)
 		handler(req.body)
 		res.send('ok')
 	});
