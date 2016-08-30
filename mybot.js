@@ -141,12 +141,12 @@ var Botkit = require('botkit');
 	// 	}
 	// });
 
-	// app.post('/webhook', function (req, res) {
-	// 	console.log('FB REQUEST')
-	// 	console.log(req)
-	// 	handler(req.body)
-	// 	res.send('ok')
-	// });
+	app.post('/webhook', function (req, res) {
+		console.log('FB REQUEST')
+		console.log(req)
+		handler(req.body)
+		res.send('ok')
+	});
 	
 	// respond to facebook's verification
 	// app.get('/webhook/', function (req, res) {
@@ -181,9 +181,9 @@ var Botkit = require('botkit');
 	  }
 	);
 
-	controllerFB.createWebhookEndpoints(app, bot, function() {
-		console.log('This bot is online!!!');
-	});
+	// controllerFB.createWebhookEndpoints(app, bot, function() {
+	// 	console.log('This bot is online!!!');
+	// });
 
 	// controllerFB.setupWebserver((process.env.PORT || 3000),function(err,webserver) {
 	// 	controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
