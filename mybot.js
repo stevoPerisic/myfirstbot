@@ -131,22 +131,26 @@ var Botkit = require('botkit');
 	  }
 	}
 
-	app.get('/webhook', function (req, res) {
-		// This enables subscription to the webhooks
-		if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
-			res.send(req.query['hub.challenge'])
-		}
-		else {
-			res.send('Incorrect verify token')
-		}
-	});
+	// app.get('/webhook', function (req, res) {
+	// 	// This enables subscription to the webhooks
+	// 	if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
+	// 		res.send(req.query['hub.challenge'])
+	// 	}
+	// 	else {
+	// 		res.send('Incorrect verify token')
+	// 	}
+	// });
 
-	app.post('/webhook', function (req, res) {
-		console.log('FB REQUEST')
-		console.log(req)
-		handler(req.body)
-		res.send('ok')
-	});
+	// app.post('/webhook', function (req, res) {
+	// 	console.log('FB REQUEST')
+	// 	console.log(req)
+	// 	handler(req.body)
+	// 	res.send('ok')
+	// });
+
+	controller.createWebhookEndpoints(app, bot, function() {
+	      console.log('This bot is online!!!');
+	  });
 	
 	// respond to facebook's verification
 	// app.get('/webhook/', function (req, res) {
