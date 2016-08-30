@@ -64,7 +64,7 @@ var Botkit = require('botkit');
 	    verify_token: process.env.FB_VERIFY_TOKEN
 	});
 	
-	controller.createWebhookEndpoints(webserver, bot, function() {});
+	controllerFB.createWebhookEndpoints(webserver, bot, function() {});
 
 	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 		// console.log('USER '+message);
