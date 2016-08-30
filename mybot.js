@@ -47,35 +47,148 @@ var Botkit = require('botkit');
 /*******************************/
 // Facebook Bot
 /*******************************/
-// respond to facebook's verification
-	app.get('/webhook/', function (req, res) {
-	  if (req.query['hub.verify_token'] === token) {
-	    res.send(req.query['hub.challenge']);
-	  } else {
-	    res.send('Error, wrong validation token');
+	// this function processes the POST request to the webhook
+	var handler = function (obj) {
+	  controller.debug('GOT A MESSAGE HOOK')
+	  var message
+	  if (obj.entry) {
+	    for (var e = 0; e < obj.entry.length; e++) {
+	      for (var m = 0; m < obj.entry[e].messaging.length; m++) {
+	        var facebook_message = obj.entry[e].messaging[m]
+
+	        console.log(facebook_message)
+
+	        // normal message
+	        if (facebook_message.message) {
+	          message = {
+	            text: facebook_message.message.text,
+	            user: facebook_message.sender.id,
+	            channel: facebook_message.sender.id,
+	            timestamp: facebook_message.timestamp,
+	            seq: facebook_message.message.seq,
+	            mid: facebook_message.message.mid,
+	            attachments: facebook_message.message.attachments
+	          }
+
+	          // save if user comes from m.me adress or Facebook search
+	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
+
+	          controller.receiveMessage(bot, message)
+	        }
+	        // clicks on a postback action in an attachment
+	        else if (facebook_message.postback) {
+	          // trigger BOTH a facebook_postback event
+	          // and a normal message received event.
+	          // this allows developers to receive postbacks as part of a conversation.
+	          message = {
+	            payload: facebook_message.postback.payload,
+	            user: facebook_message.sender.id,
+	            channel: facebook_message.sender.id,
+	            timestamp: facebook_message.timestamp
+	          }
+
+	          controller.trigger('facebook_postback', [bot, message])
+
+	          message = {
+	            text: facebook_message.postback.payload,
+	            user: facebook_message.sender.id,
+	            channel: facebook_message.sender.id,
+	            timestamp: facebook_message.timestamp
+	          }
+
+	          controller.receiveMessage(bot, message)
+	        }
+	        // When a user clicks on "Send to Messenger"
+	        else if (facebook_message.optin) {
+	          message = {
+	            optin: facebook_message.optin,
+	            user: facebook_message.sender.id,
+	            channel: facebook_message.sender.id,
+	            timestamp: facebook_message.timestamp
+	          }
+
+	            // save if user comes from "Send to Messenger"
+	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
+
+	          controller.trigger('facebook_optin', [bot, message])
+	        }
+	        // message delivered callback
+	        else if (facebook_message.delivery) {
+	          message = {
+	            optin: facebook_message.delivery,
+	            user: facebook_message.sender.id,
+	            channel: facebook_message.sender.id,
+	            timestamp: facebook_message.timestamp
+	          }
+
+	          controller.trigger('message_delivered', [bot, message])
+	        }
+	        else {
+	          controller.log('Got an unexpected message from Facebook: ', facebook_message)
+	        }
+	      }
+	    }
 	  }
+	}
+
+	app.get('/webhook', function (req, res) {
+		// This enables subscription to the webhooks
+		if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
+			res.send(req.query['hub.challenge'])
+		}
+		else {
+			res.send('Incorrect verify token')
+		}
 	});
 
-	var controllerFB = Botkit.facebookbot({
-	    debug: true
-	});
-	var bot = controllerFB.spawn({
-		access_token: process.env.FB_PAGE_ACCESS_TOKEN,
-	    verify_token: process.env.FB_VERIFY_TOKEN
+	app.post('/webhook', function (req, res) {
+		handler(req.body)
+		res.send('ok')
 	});
 	
-	controllerFB.createWebhookEndpoints(webserver, bot, function() {});
+	// respond to facebook's verification
+	// app.get('/webhook/', function (req, res) {
+	//   if (req.query['hub.verify_token'] === token) {
+	//     res.send(req.query['hub.challenge']);
+	//   } else {
+	//     res.send('Error, wrong validation token');
+	//   }
+	// });
+
+	var controllerFB = Botkit.facebookbot({
+	    debug: true,
+	    access_token: process.env.FB_PAGE_ACCESS_TOKEN,
+	    verify_token: process.env.FB_VERIFY_TOKEN
+	});
+	var bot = controllerFB.spawn({});
+
+	// subscribe to page events
+	request.post('https://graph.facebook.com/me/subscribed_apps?access_token=' + process.env.FB_PAGE_ACCESS_TOKEN,
+	  function (err, res, body) {
+	    if (err) {
+	      controllerFB.log('Could not subscribe to page messages')
+	    }
+	    else {
+	      controllerFB.log('Successfully subscribed to Facebook events:', body)
+	      console.log('Botkit activated')
+
+	      // start ticking to send conversation messages
+	      controllerFB.startTicking()
+	    }
+	  }
+	);
+
+	console.log('botkit')
+
+	// this is triggered when a user clicks the send-to-messenger plugin
+	controllerFB.on('facebook_optin', function (bot, message) {
+	  bot.reply(message, 'Welcome, friend')
+	});
 
 	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-		// console.log('USER '+message);
-	    controllerFB.storage.users.get(message.user, function(err, user) {
-	        if (user && user.name) {
-	            bot.reply(message, 'Hello ' + user.name + '!!');
-	        } else {
-	            bot.reply(message, 'Hello.');
-	        }
-	    });
+		bot.reply(message, 'Hello.');
 	});
+
 
 // controllerFB.setupWebserver(process.env.port || 5000, function(err, webserver) {
 //     controllerFB.createWebhookEndpoints(webserver, bot, function() {
