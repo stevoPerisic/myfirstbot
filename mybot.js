@@ -8,27 +8,27 @@ var app = express();
 var request = require('request');
 var Botkit = require('botkit');
 
-var controller = Botkit.slackbot({
-  debug: true
-});
+// var controller = Botkit.slackbot({
+//   debug: true
+// });
 
-// connect the bot to a stream of messages
-controller.spawn({
-  token: SlackAPIKey,
-}).startRTM()
+// // connect the bot to a stream of messages
+// controller.spawn({
+//   token: SlackAPIKey,
+// }).startRTM()
 
-// give the bot something to listen for.
-controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+// // give the bot something to listen for.
+// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
 
-  bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
+//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
 
-});
+// });
 
-controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
+// controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
 
-  bot.reply(message,'Why sure! I love luncahbles!');
+//   bot.reply(message,'Why sure! I love luncahbles!');
 
-});
+// });
 
 
 app.get('/', function (req, res) {
@@ -54,8 +54,7 @@ var controllerFB = Botkit.facebookbot({
     access_token: process.env.FB_PAGE_ACCESS_TOKEN,
     verify_token: process.env.FB_VERIFY_TOKEN,
 });
-// var bot = controllerFB.spawn({
-// });
+controllerFB.spawn({});
 
 // controllerFB.setupWebserver(process.env.port || 5000, function(err, webserver) {
 //     controllerFB.createWebhookEndpoints(webserver, bot, function() {
