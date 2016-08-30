@@ -54,8 +54,8 @@ var controllerFB = Botkit.facebookbot({
     access_token: process.env.FB_PAGE_ACCESS_TOKEN,
     verify_token: process.env.FB_VERIFY_TOKEN,
 });
-var bot = controllerFB.spawn({
-});
+// var bot = controllerFB.spawn({
+// });
 
 // controllerFB.setupWebserver(process.env.port || 5000, function(err, webserver) {
 //     controllerFB.createWebhookEndpoints(webserver, bot, function() {
