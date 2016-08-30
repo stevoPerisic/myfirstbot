@@ -181,15 +181,15 @@ var Botkit = require('botkit');
 	  }
 	);
 
-	// controllerFB.createWebhookEndpoints(app, bot, function() {
-	// 	console.log('This bot is online!!!');
-	// });
-
-	controllerFB.setupWebserver((process.env.PORT || 3000),function(err,webserver) {
-		controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
-			console.log('This bot is online!!!');
-		});
+	controllerFB.createWebhookEndpoints(app, bot, function() {
+		console.log('This bot is online!!!');
 	});
+
+	// controllerFB.setupWebserver((process.env.PORT || 3000),function(err,webserver) {
+	// 	controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
+	// 		console.log('This bot is online!!!');
+	// 	});
+	// });
 
 	console.log('botkit')
 
