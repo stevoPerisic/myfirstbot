@@ -78,6 +78,7 @@ var controllerFB = Botkit.facebookbot({
 // });
 
 controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+	console.log('USER '+message);
     controllerFB.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
