@@ -71,7 +71,7 @@ var Botkit = require('botkit');
 	          }
 
 	          // save if user comes from m.me adress or Facebook search
-	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
+	          // create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
 
 	          controllerFB.receiveMessage(bot, message)
 	        }
@@ -108,7 +108,7 @@ var Botkit = require('botkit');
 	          }
 
 	            // save if user comes from "Send to Messenger"
-	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
+	          // create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
 
 	          controllerFB.trigger('facebook_optin', [bot, message])
 	        }
