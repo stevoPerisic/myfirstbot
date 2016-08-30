@@ -8,53 +8,74 @@ var app = express();
 var request = require('request');
 var Botkit = require('botkit');
 
-// var controller = Botkit.slackbot({
-//   debug: true
-// });
+/*******************************/
+// Express server
+/*******************************/
+	app.get('/', function (req, res) {
+	  res.send('Hello world');
+	});
 
-// // connect the bot to a stream of messages
-// controller.spawn({
-//   token: SlackAPIKey,
-// }).startRTM()
+	app.listen((process.env.PORT || 5000), function () {
+	  console.log('Listening on port 5000');
+	});
 
-// // give the bot something to listen for.
-// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+/*******************************/
+// Slack Bot
+/*******************************/
+	// var controller = Botkit.slackbot({
+	//   debug: true
+	// });
 
-//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
+	// // connect the bot to a stream of messages
+	// controller.spawn({
+	//   token: SlackAPIKey,
+	// }).startRTM()
 
-// });
+	// // give the bot something to listen for.
+	// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
 
-// controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
+	//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
 
-//   bot.reply(message,'Why sure! I love luncahbles!');
+	// });
 
-// });
+	// controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
 
+	//   bot.reply(message,'Why sure! I love luncahbles!');
 
-app.get('/', function (req, res) {
-  res.send('Hello world');
-});
+	// });
 
-app.listen((process.env.PORT || 5000), function () {
-  console.log('Listening on port 5000');
-});
-
-/*** FACEBOOK BOT ********/
+/*******************************/
+// Facebook Bot
+/*******************************/
 // respond to facebook's verification
-app.get('/webhook/', function (req, res) {
-  if (req.query['hub.verify_token'] === token) {
-    res.send(req.query['hub.challenge']);
-  } else {
-    res.send('Error, wrong validation token');
-  }
-});
+	app.get('/webhook/', function (req, res) {
+	  if (req.query['hub.verify_token'] === token) {
+	    res.send(req.query['hub.challenge']);
+	  } else {
+	    res.send('Error, wrong validation token');
+	  }
+	});
 
-var controllerFB = Botkit.facebookbot({
-    debug: true,
-    access_token: process.env.FB_PAGE_ACCESS_TOKEN,
-    verify_token: process.env.FB_VERIFY_TOKEN,
-});
-controllerFB.spawn({});
+	var controllerFB = Botkit.facebookbot({
+	    debug: true
+	});
+	var bot = controllerFB.spawn({
+		access_token: process.env.FB_PAGE_ACCESS_TOKEN,
+	    verify_token: process.env.FB_VERIFY_TOKEN
+	});
+	
+	controller.createWebhookEndpoints(webserver, bot, function() {});
+
+	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+		// console.log('USER '+message);
+	    controllerFB.storage.users.get(message.user, function(err, user) {
+	        if (user && user.name) {
+	            bot.reply(message, 'Hello ' + user.name + '!!');
+	        } else {
+	            bot.reply(message, 'Hello.');
+	        }
+	    });
+	});
 
 // controllerFB.setupWebserver(process.env.port || 5000, function(err, webserver) {
 //     controllerFB.createWebhookEndpoints(webserver, bot, function() {
@@ -76,16 +97,7 @@ controllerFB.spawn({});
 //     });
 // });
 
-controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-	console.log('USER '+message);
-    controllerFB.storage.users.get(message.user, function(err, user) {
-        if (user && user.name) {
-            bot.reply(message, 'Hello ' + user.name + '!!');
-        } else {
-            bot.reply(message, 'Hello.');
-        }
-    });
-});
+
 
 // respond to post calls from facebook
 // app.post('/webhook/', function (req, res) {
