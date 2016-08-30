@@ -147,10 +147,6 @@ var Botkit = require('botkit');
 	// 	handler(req.body)
 	// 	res.send('ok')
 	// });
-
-	controllerFB.createWebhookEndpoints(app, bot, function() {
-	      console.log('This bot is online!!!');
-	  });
 	
 	// respond to facebook's verification
 	// app.get('/webhook/', function (req, res) {
@@ -166,6 +162,7 @@ var Botkit = require('botkit');
 	    access_token: process.env.FB_PAGE_ACCESS_TOKEN,
 	    verify_token: process.env.FB_VERIFY_TOKEN
 	});
+
 	var bot = controllerFB.spawn({});
 
 	// subscribe to page events
@@ -183,6 +180,10 @@ var Botkit = require('botkit');
 	    }
 	  }
 	);
+
+	controllerFB.createWebhookEndpoints(app, bot, function() {
+		console.log('This bot is online!!!');
+	});
 
 	console.log('botkit')
 
