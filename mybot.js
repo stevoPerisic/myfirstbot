@@ -4,7 +4,7 @@ var SlackAPIKey = process.env.SLACK_API_KEY;
 var token = process.env.FB_VERIFY_TOKEN; //'<YOUR TOKEN HERE>';
 var express = require('express');
 var app = express();
-// var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var request = require('request');
 var Botkit = require('botkit');
 
@@ -140,8 +140,8 @@ var Botkit = require('botkit');
 	// 		res.send('Incorrect verify token')
 	// 	}
 	// });
-
-	app.post('/webhook', function (req, res) {
+	var jsonParser = bodyParser.json();
+	app.post('/webhook', jsonParser, function (req, res) {
 		console.log('FB REQUEST')
 		console.log(req)
 		handler(req.body)
