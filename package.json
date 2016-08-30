@@ -3,7 +3,7 @@
     "dependencies": {
     	"express": "4.14.0",
     	"request": "2.74.0",
-    	"bodyparser": "1.15.2",
+    	"body-parser": "1.15.2",
         "botkit": "0.2.2",
         "natural": "0.4.0",
         "dotenv": "2.0.0"
