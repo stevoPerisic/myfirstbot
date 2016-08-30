@@ -148,7 +148,7 @@ var Botkit = require('botkit');
 	// 	res.send('ok')
 	// });
 
-	controller.createWebhookEndpoints(app, bot, function() {
+	controllerFB.createWebhookEndpoints(app, bot, function() {
 	      console.log('This bot is online!!!');
 	  });
 	
