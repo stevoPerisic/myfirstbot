@@ -185,7 +185,7 @@ var Botkit = require('botkit');
 	// 	console.log('This bot is online!!!');
 	// });
 
-	controllerFB.setupWebserver((process.env.port || 3000),function(err,webserver) {
+	controllerFB.setupWebserver((process.env.PORT || 3000),function(err,webserver) {
 		controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
 			console.log('This bot is online!!!');
 		});
@@ -195,7 +195,7 @@ var Botkit = require('botkit');
 
 	// this is triggered when a user clicks the send-to-messenger plugin
 	controllerFB.on('facebook_optin', function (bot, message) {
-	  bot.reply(message, 'Welcome, friend')
+	  	bot.reply(message, 'Welcome, friend')
 	});
 
 	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
