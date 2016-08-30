@@ -22,27 +22,27 @@ var Botkit = require('botkit');
 /*******************************/
 // Slack Bot
 /*******************************/
-	// var controller = Botkit.slackbot({
-	//   debug: true
-	// });
+	var controller = Botkit.slackbot({
+	  debug: true
+	});
 
-	// // connect the bot to a stream of messages
-	// controller.spawn({
-	//   token: SlackAPIKey,
-	// }).startRTM()
+	// connect the bot to a stream of messages
+	controller.spawn({
+	  token: SlackAPIKey,
+	}).startRTM()
 
-	// // give the bot something to listen for.
-	// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+	// give the bot something to listen for.
+	controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
 
-	//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
+	  bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
 
-	// });
+	});
 
-	// controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
+	controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
 
-	//   bot.reply(message,'Why sure! I love luncahbles!');
+	  bot.reply(message,'Why sure! I love luncahbles!');
 
-	// });
+	});
 
 /*******************************/
 // Facebook Bot
@@ -131,15 +131,16 @@ var Botkit = require('botkit');
 	  }
 	}
 
-	// app.get('/webhook', function (req, res) {
-	// 	// This enables subscription to the webhooks
-	// 	if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
-	// 		res.send(req.query['hub.challenge'])
-	// 	}
-	// 	else {
-	// 		res.send('Incorrect verify token')
-	// 	}
-	// });
+	app.get('/webhook', function (req, res) {
+		// This enables subscription to the webhooks
+		if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFY_TOKEN) {
+			res.send(req.query['hub.challenge'])
+		}
+		else {
+			res.send('Incorrect verify token')
+		}
+	});
+
 	var jsonParser = bodyParser.json();
 	app.post('/webhook', jsonParser, function (req, res) {
 		console.log('FB REQUEST')
@@ -147,15 +148,6 @@ var Botkit = require('botkit');
 		handler(req.body)
 		res.send('ok')
 	});
-	
-	// respond to facebook's verification
-	// app.get('/webhook/', function (req, res) {
-	//   if (req.query['hub.verify_token'] === token) {
-	//     res.send(req.query['hub.challenge']);
-	//   } else {
-	//     res.send('Error, wrong validation token');
-	//   }
-	// });
 
 	var controllerFB = Botkit.facebookbot({
 	    debug: true,
@@ -181,16 +173,6 @@ var Botkit = require('botkit');
 	  }
 	);
 
-	// controllerFB.createWebhookEndpoints(app, bot, function() {
-	// 	console.log('This bot is online!!!');
-	// });
-
-	// controllerFB.setupWebserver((process.env.PORT || 3000),function(err,webserver) {
-	// 	controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
-	// 		console.log('This bot is online!!!');
-	// 	});
-	// });
-
 	console.log('botkit')
 
 	// this is triggered when a user clicks the send-to-messenger plugin
@@ -202,63 +184,3 @@ var Botkit = require('botkit');
 		bot.reply(message, 'Hello.');
 	});
 
-
-// controllerFB.setupWebserver(process.env.port || 5000, function(err, webserver) {
-//     controllerFB.createWebhookEndpoints(webserver, bot, function() {
-//         console.log('ONLINE!');
-//         // if(ops.lt) {
-//             var tunnel = localtunnel(process.env.port || 5000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
-//                 if (err) {
-//                     console.log(err);
-//                     process.exit();
-//                 }
-//                 console.log("Your bot is available on the web at the following URL: " + tunnel.url + '/facebook/receive');
-//             });
-
-//             tunnel.on('close', function() {
-//                 console.log("Your bot is no longer available on the web at the localtunnnel.me URL.");
-//                 process.exit();
-//             });
-//         //}
-//     });
-// });
-
-
-
-// respond to post calls from facebook
-// app.post('/webhook/', function (req, res) {
-// 	console.log(req);
-//   var messaging_events = req.body.entry[0].messaging;
-//   for (i = 0; i < messaging_events.length; i++) {
-//     var event = req.body.entry[0].messaging[i];
-//     var sender = event.sender.id;
-//     if (event.message && event.message.text) {
-//       var incomingText = event.message.text;
-//       console.log('You sent the message', incomingText);
-//       sendTextMessage(sender, "Text received, echo: "+ incomingText.substring(0, 200));
-//     }
-//   }
-//   res.sendStatus(200);
-// });
-
-// function sendTextMessage(sender, text) {
-//   var access_token = process.env.FB_PAGE_ACCESS_TOKEN;
-//   var messageData = {
-//     text:text
-//   }
-//   request({
-//     url: 'https://graph.facebook.com/v2.6/me/messages',
-//     qs: {access_token:access_token},
-//     method: 'POST',
-//     json: {
-//       recipient: {id:sender},
-//       message: messageData,
-//     }
-//   }, function(error, response, body) {
-//     if (error) {
-//       console.log('Error sending message: ', error);
-//     } else if (response.body.error) {
-//       console.log('Error: ', response.body.error);
-//     }
-//   });
-// }
