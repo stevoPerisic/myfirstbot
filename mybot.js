@@ -49,7 +49,7 @@ var Botkit = require('botkit');
 /*******************************/
 	// this function processes the POST request to the webhook
 	var handler = function (obj) {
-	  controller.debug('GOT A MESSAGE HOOK')
+	  controllerFB.debug('GOT A MESSAGE HOOK')
 	  var message
 	  if (obj.entry) {
 	    for (var e = 0; e < obj.entry.length; e++) {
@@ -73,7 +73,7 @@ var Botkit = require('botkit');
 	          // save if user comes from m.me adress or Facebook search
 	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
 
-	          controller.receiveMessage(bot, message)
+	          controllerFB.receiveMessage(bot, message)
 	        }
 	        // clicks on a postback action in an attachment
 	        else if (facebook_message.postback) {
@@ -87,7 +87,7 @@ var Botkit = require('botkit');
 	            timestamp: facebook_message.timestamp
 	          }
 
-	          controller.trigger('facebook_postback', [bot, message])
+	          controllerFB.trigger('facebook_postback', [bot, message])
 
 	          message = {
 	            text: facebook_message.postback.payload,
@@ -96,7 +96,7 @@ var Botkit = require('botkit');
 	            timestamp: facebook_message.timestamp
 	          }
 
-	          controller.receiveMessage(bot, message)
+	          controllerFB.receiveMessage(bot, message)
 	        }
 	        // When a user clicks on "Send to Messenger"
 	        else if (facebook_message.optin) {
@@ -110,7 +110,7 @@ var Botkit = require('botkit');
 	            // save if user comes from "Send to Messenger"
 	          create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
 
-	          controller.trigger('facebook_optin', [bot, message])
+	          controllerFB.trigger('facebook_optin', [bot, message])
 	        }
 	        // message delivered callback
 	        else if (facebook_message.delivery) {
@@ -121,10 +121,10 @@ var Botkit = require('botkit');
 	            timestamp: facebook_message.timestamp
 	          }
 
-	          controller.trigger('message_delivered', [bot, message])
+	          controllerFB.trigger('message_delivered', [bot, message])
 	        }
 	        else {
-	          controller.log('Got an unexpected message from Facebook: ', facebook_message)
+	          controllerFB.log('Got an unexpected message from Facebook: ', facebook_message)
 	        }
 	      }
 	    }
