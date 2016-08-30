@@ -185,7 +185,7 @@ var Botkit = require('botkit');
 	// 	console.log('This bot is online!!!');
 	// });
 
-	controllerFB.setupWebserver(process.env.port,function(err,webserver) {
+	controllerFB.setupWebserver((process.env.port || 3000),function(err,webserver) {
 		controllerFB.createWebhookEndpoints(controllerFB.webserver, bot, function() {
 			console.log('This bot is online!!!');
 		});
