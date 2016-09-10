@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var Botkit = require('botkit');
 
+var builtinPhrases = require('./builtins');
+
+
 /*******************************/
 // Express server
 /*******************************/
@@ -48,88 +51,8 @@ var Botkit = require('botkit');
 // Facebook Bot
 /*******************************/
 	// this function processes the POST request to the webhook
-	var handler = function (obj) {
-	  controllerFB.debug('GOT A MESSAGE HOOK')
-	  var message
-	  if (obj.entry) {
-	    for (var e = 0; e < obj.entry.length; e++) {
-	      for (var m = 0; m < obj.entry[e].messaging.length; m++) {
-	        var facebook_message = obj.entry[e].messaging[m]
 
-	        console.log(facebook_message)
-
-	        // normal message
-	        if (facebook_message.message) {
-	          message = {
-	            text: facebook_message.message.text,
-	            user: facebook_message.sender.id,
-	            channel: facebook_message.sender.id,
-	            timestamp: facebook_message.timestamp,
-	            seq: facebook_message.message.seq,
-	            mid: facebook_message.message.mid,
-	            attachments: facebook_message.message.attachments
-	          }
-
-	          // save if user comes from m.me adress or Facebook search
-	          // create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
-
-	          controllerFB.receiveMessage(bot, message)
-	        }
-	        // clicks on a postback action in an attachment
-	        else if (facebook_message.postback) {
-	          // trigger BOTH a facebook_postback event
-	          // and a normal message received event.
-	          // this allows developers to receive postbacks as part of a conversation.
-	          message = {
-	            payload: facebook_message.postback.payload,
-	            user: facebook_message.sender.id,
-	            channel: facebook_message.sender.id,
-	            timestamp: facebook_message.timestamp
-	          }
-
-	          controllerFB.trigger('facebook_postback', [bot, message])
-
-	          message = {
-	            text: facebook_message.postback.payload,
-	            user: facebook_message.sender.id,
-	            channel: facebook_message.sender.id,
-	            timestamp: facebook_message.timestamp
-	          }
-
-	          controllerFB.receiveMessage(bot, message)
-	        }
-	        // When a user clicks on "Send to Messenger"
-	        else if (facebook_message.optin) {
-	          message = {
-	            optin: facebook_message.optin,
-	            user: facebook_message.sender.id,
-	            channel: facebook_message.sender.id,
-	            timestamp: facebook_message.timestamp
-	          }
-
-	            // save if user comes from "Send to Messenger"
-	          // create_user_if_new(facebook_message.sender.id, facebook_message.timestamp)
-
-	          controllerFB.trigger('facebook_optin', [bot, message])
-	        }
-	        // message delivered callback
-	        else if (facebook_message.delivery) {
-	          message = {
-	            optin: facebook_message.delivery,
-	            user: facebook_message.sender.id,
-	            channel: facebook_message.sender.id,
-	            timestamp: facebook_message.timestamp
-	          }
-
-	          controllerFB.trigger('message_delivered', [bot, message])
-	        }
-	        else {
-	          controllerFB.log('Got an unexpected message from Facebook: ', facebook_message)
-	        }
-	      }
-	    }
-	  }
-	}
+	var handler = require('./lib/fb_handler').FBhandler;
 
 	app.get('/webhook', function (req, res) {
 		// This enables subscription to the webhooks
@@ -143,9 +66,10 @@ var Botkit = require('botkit');
 
 	var jsonParser = bodyParser.json();
 	app.post('/webhook', jsonParser, function (req, res) {
-		console.log('FB REQUEST')
-		console.log(req)
+		// console.log('FB REQUEST')
+		// console.log(req)
 		handler(req.body)
+
 		res.send('ok')
 	});
 
@@ -183,4 +107,23 @@ var Botkit = require('botkit');
 	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 		bot.reply(message, 'Hello.');
 	});
+
+
+/*******************************/
+// Twillio Bot
+/*******************************/
+	// creds needed
+	// var TW_acct_SID = process.env.TW_ACCT_SID;
+	// var TW_auth_token = process.env.TW_AUTH_TOKEN;
+	// var TW_API_key = process.env.TW_API_KEY;
+	// var TW_service_SID = process.env.TW_SERVICE_SID;
+	// var TW_API_secret = process.env.TW_API_SECRET;
+
+
+
+
+
+
+
+
 
