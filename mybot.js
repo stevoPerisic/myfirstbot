@@ -5,6 +5,7 @@ var token = process.env.FB_VERIFY_TOKEN; //'<YOUR TOKEN HERE>';
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 var request = require('request');
 var Botkit = require('botkit');
 
@@ -51,8 +52,14 @@ var builtinPhrases = require('./builtins');
 // Facebook Bot
 /*******************************/
 	// this function processes the POST request to the webhook
-
-	//var handler = require('./lib/fb_handler').FBhandler;
+	// this to handles FB messaging
+	var handler = require('./lib/fb_handler');
+	handler.controllerFB = Botkit.facebookbot({
+	    debug: true,
+	    access_token: process.env.FB_PAGE_ACCESS_TOKEN,
+	    verify_token: process.env.FB_VERIFY_TOKEN
+	});
+	var bot = handler.controllerFB.spawn({});
 
 	app.get('/webhook', function (req, res) {
 		// This enables subscription to the webhooks
@@ -64,47 +71,38 @@ var builtinPhrases = require('./builtins');
 		}
 	});
 
-	var jsonParser = bodyParser.json();
 	app.post('/webhook', jsonParser, function (req, res) {
 		// console.log('FB REQUEST')
 		// console.log(req)
-		// handler(req.body)
+		handler.FBhandler(req.body)
 
 		res.send('ok')
 	});
-
-	var controllerFB = Botkit.facebookbot({
-	    debug: true,
-	    access_token: process.env.FB_PAGE_ACCESS_TOKEN,
-	    verify_token: process.env.FB_VERIFY_TOKEN
-	});
-
-	var bot = controllerFB.spawn({});
 
 	// subscribe to page events
 	request.post('https://graph.facebook.com/me/subscribed_apps?access_token=' + process.env.FB_PAGE_ACCESS_TOKEN,
 	  function (err, res, body) {
 	    if (err) {
-	      controllerFB.log('Could not subscribe to page messages')
+	      handler.controllerFB.log('Could not subscribe to page messages')
 	    }
 	    else {
-	      controllerFB.log('Successfully subscribed to Facebook events:', body)
+	      handler.controllerFB.log('Successfully subscribed to Facebook events:', body)
 	      console.log('Botkit activated')
 
 	      // start ticking to send conversation messages
-	      controllerFB.startTicking()
+	      handler.controllerFB.startTicking()
 	    }
 	  }
 	);
 
-	console.log('botkit')
+	console.log('botkit');
 
 	// this is triggered when a user clicks the send-to-messenger plugin
-	controllerFB.on('facebook_optin', function (bot, message) {
+	handler.controllerFB.on('facebook_optin', function (bot, message) {
 	  	bot.reply(message, 'Welcome, friend')
 	});
 
-	controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+	handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 		bot.reply(message, 'Hello.');
 	});
 
