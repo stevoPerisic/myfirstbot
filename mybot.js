@@ -74,7 +74,7 @@ var builtinPhrases = require('./builtins');
 	app.post('/webhook', jsonParser, function (req, res) {
 		// console.log('FB REQUEST')
 		// console.log(req)
-		handler.FBhandler(req.body)
+		handler.FBhandler(req.body, bot)
 
 		res.send('ok')
 	});
