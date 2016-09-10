@@ -52,7 +52,7 @@ var builtinPhrases = require('./builtins');
 /*******************************/
 	// this function processes the POST request to the webhook
 
-	var handler = require('./lib/fb_handler').FBhandler;
+	//var handler = require('./lib/fb_handler').FBhandler;
 
 	app.get('/webhook', function (req, res) {
 		// This enables subscription to the webhooks
@@ -68,7 +68,7 @@ var builtinPhrases = require('./builtins');
 	app.post('/webhook', jsonParser, function (req, res) {
 		// console.log('FB REQUEST')
 		// console.log(req)
-		handler(req.body)
+		// handler(req.body)
 
 		res.send('ok')
 	});
