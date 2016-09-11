@@ -36,15 +36,17 @@ var builtinPhrases = require('./builtins');
 	}).startRTM()
 
 	// give the bot something to listen for.
-	// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
-	//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
-	// });
+	controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+	  bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
+	});
 
-	controller.hears('question me', 'message_received', function(bot,message) {
+	controller.hears(['question me'],['direct_message'], function(bot,message) {
+		console.log('HEARD question me.......');
 		console.log(message);
 		// start a conversation to handle this response.
 		bot.startConversation(message,function(err,convo) {
 			console.log('convo started');
+
 			convo.ask('How are you?',function(response,convo) {
 
 				convo.say('Cool, you said: ' + response.text);
