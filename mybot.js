@@ -36,17 +36,79 @@ var builtinPhrases = require('./builtins');
 	}).startRTM()
 
 	// give the bot something to listen for.
-	controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
-
-	  bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
-
-	});
+	// controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+	//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
+	// });
 
 	controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
-
 	  bot.reply(message,'Why sure! I love luncahbles!');
+	});
+
+	// reply to any incoming message
+	controller.on('message_received', function(bot, message) {
+	    bot.reply(message, 'I heard... something!');
+	});
+
+	// reply to a direct mention - @bot hello
+	// controller.on('direct_mention',function(bot,message) {
+	//   // reply to _message_ by using the _bot_ object
+	//   bot.reply(message,'I heard you mention me!');
+	// });
+
+	// // reply to a direct message
+	// controller.on('direct_message',function(bot,message) {
+	//   // reply to _message_ by using the _bot_ object
+	//   bot.reply(message,'You are talking directly to me');
+	// });
+
+	controller.on('ambient',function(bot,message) {
+
+	    // do something...
+
+	    // then respond with a message object
+	    //
+	    // bot.reply(message,{
+	    //   text: "A more complex response",
+	    //   username: "ReplyBot",
+	    //   icon_emoji: ":dash:",
+	    // });
+
+		var reply_with_attachments = {
+		    'username': 'My bot' ,
+		    'text': 'This is a pre-text',
+		    'attachments': [
+		      {
+		        'fallback': 'To be useful, I need you to invite me in a channel.',
+		        'title': 'How can I help you?',
+		        'text': 'To be useful, I need you to invite me in a channel ',
+		        'color': '#7CD197'
+		      }
+		    ],
+		    'icon_url': 'http://lorempixel.com/48/48'
+		    }
+
+		  bot.reply(message, reply_with_attachments);
 
 	});
+
+	//Using attachments
+	// controller.hears('test',['direct_message','direct_mention'],function(bot,message) {
+	//   var reply_with_attachments = {
+	//     'username': 'My bot' ,
+	//     'text': 'This is a pre-text',
+	//     'attachments': [
+	//       {
+	//         'fallback': 'To be useful, I need you to invite me in a channel.',
+	//         'title': 'How can I help you?',
+	//         'text': 'To be useful, I need you to invite me in a channel ',
+	//         'color': '#7CD197'
+	//       }
+	//     ],
+	//     'icon_url': 'http://lorempixel.com/48/48'
+	//     }
+
+	//   bot.reply(message, reply_with_attachments);
+	// });
 
 /*******************************/
 // Facebook Bot
@@ -104,6 +166,65 @@ var builtinPhrases = require('./builtins');
 
 	handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 		bot.reply(message, 'Hello.');
+	});
+
+	// listen for the phrase `shirt` and reply back with structured messages
+	// containing images, links and action buttons
+	handler.controllerFB.hears(['shirt'],'message_received',function(bot, message) {
+		bot.reply(message, {
+			attachment: {
+				'type':'template',
+				'payload':{
+					'template_type':'generic',
+					'elements':[
+					{
+						'title':'Classic White T-Shirt',
+						'image_url':'http://petersapparel.parseapp.com/img/item100-thumb.png',
+						'subtitle':'Soft white cotton t-shirt is back in style',
+						'buttons':[
+						{
+							'type':'web_url',
+							'url':'https://petersapparel.parseapp.com/view_item?item_id=100',
+							'title':'View Item'
+						},
+						{
+							'type':'web_url',
+							'url':'https://petersapparel.parseapp.com/buy_item?item_id=100',
+							'title':'Buy Item'
+						},
+						{
+							'type':'postback',
+							'title':'Bookmark Item',
+							'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM100'
+						}
+						]
+					},
+					{
+						'title':'Classic Grey T-Shirt',
+						'image_url':'http://petersapparel.parseapp.com/img/item101-thumb.png',
+						'subtitle':'Soft gray cotton t-shirt is back in style',
+						'buttons':[
+						{
+							'type':'web_url',
+							'url':'https://petersapparel.parseapp.com/view_item?item_id=101',
+							'title':'View Item'
+						},
+						{
+							'type':'web_url',
+							'url':'https://petersapparel.parseapp.com/buy_item?item_id=101',
+							'title':'Buy Item'
+						},
+						{
+							'type':'postback',
+							'title':'Bookmark Item',
+							'payload':'USER_DEFINED_PAYLOAD_FOR_ITEM101'
+						}
+						]
+					}
+					]
+				}
+			}
+		});
 	});
 
 
