@@ -164,9 +164,9 @@ var builtinPhrases = require('./builtins');
 	  	bot.reply(message, 'Welcome, friend')
 	});
 
-	handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-		bot.reply(message, 'Hello.');
-	});
+	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
+	// 	bot.reply(message, 'Hello.');
+	// });
 
 	// listen for the phrase `shirt` and reply back with structured messages
 	// containing images, links and action buttons
