@@ -40,14 +40,30 @@ var builtinPhrases = require('./builtins');
 	//   bot.reply(message,'Hello Lana, you are the most awesome girl I know!');
 	// });
 
-	controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
-	  bot.reply(message,'Why sure! I love luncahbles!');
+	controller.hears('question me', 'message_received', function(bot,message) {
+
+		// start a conversation to handle this response.
+		bot.startConversation(message,function(err,convo) {
+
+			convo.ask('How are you?',function(response,convo) {
+
+				convo.say('Cool, you said: ' + response.text);
+				convo.next();
+
+			});
+
+		});
+
 	});
 
+	// controller.hears('Lunchables?',['direct_message','direct_mention','mention'],function(bot,message) {
+	//   bot.reply(message,'Why sure! I love luncahbles!');
+	// });
+
 	// reply to any incoming message
-	controller.on('message_received', function(bot, message) {
-	    bot.reply(message, 'I heard... something!');
-	});
+	// controller.on('message_received', function(bot, message) {
+	//     bot.reply(message, 'I heard... something!');
+	// });
 
 	// reply to a direct mention - @bot hello
 	// controller.on('direct_mention',function(bot,message) {
@@ -61,35 +77,35 @@ var builtinPhrases = require('./builtins');
 	//   bot.reply(message,'You are talking directly to me');
 	// });
 
-	controller.on('ambient',function(bot,message) {
+	// controller.on('ambient',function(bot,message) {
 
-	    // do something...
+	//     // do something...
 
-	    // then respond with a message object
-	    //
-	    // bot.reply(message,{
-	    //   text: "A more complex response",
-	    //   username: "ReplyBot",
-	    //   icon_emoji: ":dash:",
-	    // });
+	//     // then respond with a message object
+	//     //
+	//     // bot.reply(message,{
+	//     //   text: "A more complex response",
+	//     //   username: "ReplyBot",
+	//     //   icon_emoji: ":dash:",
+	//     // });
 
-		var reply_with_attachments = {
-		    'username': 'My bot' ,
-		    'text': 'This is a pre-text',
-		    'attachments': [
-		      {
-		        'fallback': 'To be useful, I need you to invite me in a channel.',
-		        'title': 'How can I help you?',
-		        'text': 'To be useful, I need you to invite me in a channel ',
-		        'color': '#7CD197'
-		      }
-		    ],
-		    'icon_url': 'http://lorempixel.com/48/48'
-		    }
+	// 	var reply_with_attachments = {
+	// 	    'username': 'My bot' ,
+	// 	    'text': 'This is a pre-text',
+	// 	    'attachments': [
+	// 	      {
+	// 	        'fallback': 'To be useful, I need you to invite me in a channel.',
+	// 	        'title': 'How can I help you?',
+	// 	        'text': 'To be useful, I need you to invite me in a channel ',
+	// 	        'color': '#7CD197'
+	// 	      }
+	// 	    ],
+	// 	    'icon_url': 'http://lorempixel.com/48/48'
+	// 	    }
 
-		  bot.reply(message, reply_with_attachments);
+	// 	  bot.reply(message, reply_with_attachments);
 
-	});
+	// });
 
 	//Using attachments
 	// controller.hears('test',['direct_message','direct_mention'],function(bot,message) {
