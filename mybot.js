@@ -186,10 +186,17 @@ var builtinPhrases = require('./builtins');
 	// 	bot.reply(message, 'Hello.');
 	// });
 
+	// Text message
+	handler.controllerFB.hears(['Hello'], 'message_received', function (bot, message) {
+	  	bot.reply(message, {
+	    	"text":"Hello and welcome to Perisic Designs!" 
+		});
+	});
+
 	// try out the quick replies
 	// this could be the survey questions
 	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
-	  	bot.reply({
+	  	bot.reply(message, {
 	    	"text":"Pick a color:",
 		    "quick_replies":[
 		      {
