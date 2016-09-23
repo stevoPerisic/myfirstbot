@@ -185,7 +185,7 @@ var builtinPhrases = require('./builtins');
 	// POSTBACK handler
 	handler.controllerFB.on('facebook_postback', function (bot, message) {
 	  	bot.reply(message, {
-	  		"text": message.postback.payload
+	  		"text": message.payload
 	  	})
 	});
 
