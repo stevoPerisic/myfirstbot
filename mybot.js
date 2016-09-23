@@ -199,7 +199,7 @@ var builtinPhrases = require('./builtins');
 	    	"attachment":{
 	    		"type":"image",
 				"payload":{
-					"url":"https://petersapparel.com/img/shirt.png"
+					"url":"https://pixabay.com/static/uploads/photo/2015/10/01/21/39/background-image-967820_960_720.jpg"
 				}
 			}
 		});
