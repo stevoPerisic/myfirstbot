@@ -189,7 +189,7 @@ var builtinPhrases = require('./builtins');
 	// try out the quick replies
 	// this could be the survey questions
 	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
-	  	bot.reply(message, {
+	  	bot.reply({
 	    	"text":"Pick a color:",
 		    "quick_replies":[
 		      {
