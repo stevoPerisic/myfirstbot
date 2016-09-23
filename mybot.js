@@ -182,6 +182,13 @@ var builtinPhrases = require('./builtins');
 	  	bot.reply(message, 'Welcome, friend')
 	});
 
+	// POSTBACK handler
+	handler.controllerFB.on('facebook_postback', function (bot, message) {
+	  	bot.reply(message, {
+	  		"text": message.postback.payload
+	  	})
+	});
+
 	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 	// 	bot.reply(message, 'Hello.');
 	// });
