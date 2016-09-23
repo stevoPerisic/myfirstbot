@@ -193,6 +193,12 @@ var builtinPhrases = require('./builtins');
 		});
 	});
 
+	handler.controllerFB.hears(['Thank you', 'thank you', 'thanks', 'thanx', 'thx'], 'message_received', function (bot, message) {
+	  	bot.reply(message, {
+	    	"text":"You're welcome :)" 
+		});
+	});
+
 	// Image attachment
 	handler.controllerFB.hears(['Show me an image please'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
@@ -200,6 +206,31 @@ var builtinPhrases = require('./builtins');
 	    		"type":"image",
 				"payload":{
 					"url":"https://pixabay.com/static/uploads/photo/2015/10/01/21/39/background-image-967820_960_720.jpg"
+				}
+			}
+		});
+	});
+
+	// Button template
+	handler.controllerFB.hears(['what now?'], 'message_received', function (bot, message) {
+	  	bot.reply(message, {
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type",
+					"text": "What do you want to do next?",
+					"buttons":[
+						{
+							"type": "web_url",
+							"url": "http://www.perisicdesigns.com",
+							"title": "Show Website"
+						},
+						{
+							"type": "postback",
+							"title": "Start Chatting",
+							"payload": "USER DEFINED PAYLOAD"
+						}
+					]
 				}
 			}
 		});
