@@ -261,7 +261,7 @@ var builtinPhrases = require('./builtins');
 			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
 			      }
 			    ]
-	    	]
+	    	}
 		});
 	});
 
