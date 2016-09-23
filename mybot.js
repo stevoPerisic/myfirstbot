@@ -217,7 +217,7 @@ var builtinPhrases = require('./builtins');
 	    	"attachment":{
 	    		"type":"template",
 				"payload":{
-					"template_type",
+					"template_type": "button",
 					"text": "What do you want to do next?",
 					"buttons":[
 						{
