@@ -247,21 +247,24 @@ var builtinPhrases = require('./builtins');
 	// this could be the survey questions
 	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
-	    	"text":"Pick a color:",
-	    	"payload": {
-	    		"quick_replies":[
-			      {
-			        "content_type":"text",
-			        "title":"Red",
-			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-			      },
-			      {
-			        "content_type":"text",
-			        "title":"Green",
-			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-			      }
-			    ]
-	    	}
+	  		"attachment":{
+	  			"type":"template",
+	  			"payload": {
+			    	"text":"Pick a color:",
+		    		"quick_replies":[
+				      {
+				        "content_type":"text",
+				        "title":"Red",
+				        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+				      },
+				      {
+				        "content_type":"text",
+				        "title":"Green",
+				        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+				      }
+				    ]
+				}
+			}
 		});
 	});
 
