@@ -188,10 +188,10 @@ var builtinPhrases = require('./builtins');
 
 	// try out the quick replies
 	// this could be the survey questions
-	handler.controllerFB.on('test survey', function (bot, message) {
+	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
 	    	"text":"Pick a color:",
-		    "quick_replies":[
+		    "quick_replies":
 		      {
 		        "content_type":"text",
 		        "title":"Red",
@@ -203,7 +203,7 @@ var builtinPhrases = require('./builtins');
 		        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
 		      }
 		    ]
-		})
+		});
 	});
 
 	// listen for the phrase `shirt` and reply back with structured messages
