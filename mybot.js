@@ -250,6 +250,7 @@ var builtinPhrases = require('./builtins');
 	  		"attachment":{
 	  			"type":"template",
 	  			"payload": {
+	  				'template_type':'generic',
 			    	"text":"Pick a color:",
 		    		"quick_replies":[
 				      {
