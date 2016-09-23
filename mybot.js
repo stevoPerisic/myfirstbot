@@ -196,9 +196,11 @@ var builtinPhrases = require('./builtins');
 	// Image attachment
 	handler.controllerFB.hears(['Show me an image please'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
-	    	"attachment":"type":"image",
-			"payload":{
-				"url":"https://petersapparel.com/img/shirt.png"
+	    	"attachment":{
+	    		"type":"image",
+				"payload":{
+					"url":"https://petersapparel.com/img/shirt.png"
+				}
 			}
 		});
 	});
