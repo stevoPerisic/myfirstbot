@@ -200,10 +200,29 @@ var builtinPhrases = require('./builtins');
 		});
 	});
 
+	// remember user entered data
+	handler.controllerFB.hears(['call me (.*)', 'my name is (.*)'], 'message_received', function (bot, message) {
+	  	var name = message.match[1];
+
+	  	handler.controllerFB.storage.users.get(message.user, function(err, user) {
+	  		if(user){
+	  			user.name = name;
+	  			handler.controllerFB.storage.users.save(user, function(err, id){
+	  				bot.reply(message, 'Got it. I will call you ' + user.name + ' from now on.');
+	  			});
+	  		}
+	  	});
+	});
+
+	// thank you reply
 	handler.controllerFB.hears(['Thank you', 'thank you', 'thanks', 'thanx', 'thx'], 'message_received', function (bot, message) {
-	  	bot.reply(message, {
-	    	"text":"You're welcome :)" 
-		});
+	  	handler.controllerFB.storage.users.get(message.user, function(err, user) {
+	  		if(user && user.name){
+	  			bot.reply(message, { "text":"You're welcome "+user.name+" :)" });
+	  		}else{
+	  			bot.reply(message, { "text":"You're welcome :)" });
+	  		}
+	  	})
 	});
 
 	// Image attachment
