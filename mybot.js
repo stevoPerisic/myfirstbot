@@ -232,30 +232,18 @@ var storage = require('./lib/mongoStorage');
 					"payload":{
 						"template_type": "button",
 						"text": "Would you mind answering a few questions?",
-						"quick_replies":[
-					      {
-					        "content_type":"text",
-					        "title":"Red",
-					        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-					      },
-					      {
-					        "content_type":"text",
-					        "title":"Green",
-					        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-					      }
-					    ]
-						// "buttons":[
-						// 	{
-						// 		"type": "postback",
-						// 		"title": "Let's get to it!",
-						// 		"payload": "Start Survey"
-						// 	},
-						// 	{
-						// 		"type": "postback",
-						// 		"title": "Not interested.",
-						// 		"payload": "Decline Survey"
-						// 	}
-						// ]
+						"buttons":[
+							{
+								"type": "postback",
+								"title": "Let's get to it!",
+								"payload": "Start Survey"
+							},
+							{
+								"type": "postback",
+								"title": "Not interested.",
+								"payload": "Decline Survey"
+							}
+						]
 					}
 				}
 			});
@@ -301,10 +289,6 @@ var storage = require('./lib/mongoStorage');
 	    	"text":"Sorry to hear that." 
 		});
 	});	
-
-	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
-	// 	bot.reply(message, 'Hello.');
-	// });
 
 	// Text message
 	handler.controllerFB.hears(['Hello'], 'message_received', function (bot, message) {
@@ -405,14 +389,39 @@ var storage = require('./lib/mongoStorage');
 			}
 		};
 
+		var question2 = {
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type": "button",
+					"text": "Which pill will you take, red or blue?",
+					"buttons":[
+						{
+							// "type": "web_url",
+							// "url": "http://www.perisicdesigns.com",
+							"type": "postback",
+							"title": "Red pill",
+							"payload": "Red pill"
+						},
+						{
+							"type": "postback",
+							"title": "Blue pill",
+							"payload": "Blue pill"
+						}
+					]
+				}
+			}
+		};
+
 		bot.startConversation(message,function(err,convo) {
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
-
-				// convo.say('Cool, you said: ' + response.text);
 				convo.next();
+			});
 
+			convo.ask(question2, function(response, convo){
+				convo.next();
 			});
 
 		});
