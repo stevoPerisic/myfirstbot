@@ -227,41 +227,38 @@ var storage = require('./lib/mongoStorage');
 
 		if(message.payload === 'Get started'){
 			bot.reply(message, {
-				"message": {
-					"text": "Pick one:",
-					"quick_replies":[
-			      {
-			        "content_type":"text",
-			        "title":"Red",
-			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-			      },
-			      {
-			        "content_type":"text",
-			        "title":"Green",
-			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-			      }
-			    ]
-				}
-				
-		  //   	"attachment":{
-		  //   		"type":"template",
-				// 	"payload":{
-				// 		"template_type": "button",
-				// 		"text": "Would you mind answering a few questions?",
-				// 		"buttons":[
-				// 			{
-				// 				"type": "postback",
-				// 				"title": "Let's get to it!",
-				// 				"payload": "Start Survey"
-				// 			},
-				// 			{
-				// 				"type": "postback",
-				// 				"title": "Not interested.",
-				// 				"payload": "Decline Survey"
-				// 			}
-				// 		]
-				// 	}
-				// }
+				"text":"Pick a color:",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Red",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+      },
+      {
+        "content_type":"text",
+        "title":"Green",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+      }
+    ]
+		    	/*"attachment":{
+		    		"type":"template",
+					"payload":{
+						"template_type": "button",
+						"text": "Would you mind answering a few questions?",
+						"buttons":[
+							{
+								"type": "postback",
+								"title": "Let's get to it!",
+								"payload": "Start Survey"
+							},
+							{
+								"type": "postback",
+								"title": "Not interested.",
+								"payload": "Decline Survey"
+							}
+						]
+					}
+				}*/
 			});
 		} else if(message.payload.surveyAnswer) {
 			bot.reply(message, message.payload.surveyAnswer)
