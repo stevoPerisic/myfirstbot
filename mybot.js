@@ -11,18 +11,8 @@ var Botkit = require('botkit');
 
 var builtinPhrases = require('./builtins');
 
-// DB
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-// Connection URL 
-var url = process.env.MONGODB_URI;
-// Use connect method to connect to the Server 
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
- 
-  db.close();
-});
+// DB storage
+var storage = require('./lib/mongoStorage');
 
 
 /*******************************/
@@ -196,10 +186,17 @@ MongoClient.connect(url, function(err, db) {
 	});
 
 	// POSTBACK handler
+	// THIS HAPPENS AFTER THE USER RESPONDS WITH A PAYLOAD
 	handler.controllerFB.on('facebook_postback', function (bot, message) {
-	  	bot.reply(message, {
-	  		"text": message.payload
-	  	})
+	  	// bot.reply(message, {
+	  	// 	"text": message.payload
+	  	// })
+		var surveyResponse = {
+			user: message.user,
+			answer: message.payload
+		};
+		console.log(surveyResponse);
+		// storage.create({})
 	});
 
 	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
