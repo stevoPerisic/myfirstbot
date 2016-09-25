@@ -417,6 +417,7 @@ var storage = require('./lib/mongoStorage');
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
+				convo.say('You replied '+response.payload);
 				convo.next();
 			});
 
@@ -425,14 +426,6 @@ var storage = require('./lib/mongoStorage');
 			});
 
 		});
-	});
-
-	// try out the quick replies
-	// this could be the survey questions
-	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
-	  	bot.startConversation(message, function(err, convo){
-	  		convo.ask()
-	  	});
 	});
 
 	// listen for the phrase `shirt` and reply back with structured messages
