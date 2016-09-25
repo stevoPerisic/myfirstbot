@@ -19,7 +19,9 @@ var storage = require('./lib/mongoStorage');
 // Express server
 /*******************************/
 	app.get('/', function (req, res) {
-	  res.send('Hello world');
+	  // res.send('Hello world');
+	  var surveyResults = storage.read('survey_answers');
+	  res.send(surveyResults);
 	});
 
 	app.listen((process.env.PORT || 5000), function () {
@@ -256,7 +258,7 @@ var storage = require('./lib/mongoStorage');
 			console.log("Survey response: ");
 			console.log(surveyResponse);
 			storage.create(surveyResponse);
-			
+
 		} else {
 			return true;
 		}
