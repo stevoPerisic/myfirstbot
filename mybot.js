@@ -21,6 +21,8 @@ var storage = require('./lib/mongoStorage');
 	app.get('/', function (req, res) {
 	  // res.send('Hello world');
 	  var surveyResults = storage.read('survey_answers');
+	  console.log('Survey results are: ');
+	  console.log(surveyResults);
 	  res.send(surveyResults);
 	});
 
