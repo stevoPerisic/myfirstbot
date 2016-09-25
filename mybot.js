@@ -227,18 +227,22 @@ var storage = require('./lib/mongoStorage');
 
 		if(message.payload === 'Get started'){
 			bot.reply(message, {
-				"quick_replies":[
-      {
-        "content_type":"text",
-        "title":"Red",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-      },
-      {
-        "content_type":"text",
-        "title":"Green",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-      }
-    ]
+				"message": {
+					"text": "Pick one:",
+					"quick_replies":[
+			      {
+			        "content_type":"text",
+			        "title":"Red",
+			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+			      },
+			      {
+			        "content_type":"text",
+			        "title":"Green",
+			        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+			      }
+			    ]
+				}
+				
 		  //   	"attachment":{
 		  //   		"type":"template",
 				// 	"payload":{
