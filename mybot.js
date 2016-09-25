@@ -178,6 +178,22 @@ var storage = require('./lib/mongoStorage');
 	  }
 	);
 
+	// Set up the Greeting text
+	request.post(
+		{
+			url:'https://graph.facebook.com/v2.6/me/thread_settings?access_token=' + process.env.FB_PAGE_ACCESS_TOKEN, 
+			form: {
+				"setting_type":"greeting",
+				"greeting":{
+					"text":"Hi {{user_first_name}}, welcome to this bot."
+				}
+			}
+		}, 
+		function(err,httpResponse,body){ 
+			
+		}
+	);
+
 	console.log('botkit');
 
 	// this is triggered when a user clicks the send-to-messenger plugin
