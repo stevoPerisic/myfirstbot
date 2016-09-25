@@ -24,6 +24,9 @@ var storage = require('./lib/mongoStorage');
 	  });
 	});
 
+	// server static files from the public folder
+	app.use('/static', express.static(__dirname + '/public'));
+
 	app.listen((process.env.PORT || 5000), function () {
 	  console.log('Listening on port 5000');
 	});
