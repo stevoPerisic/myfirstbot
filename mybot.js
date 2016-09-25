@@ -185,11 +185,7 @@ var storage = require('./lib/mongoStorage');
 			form: {
 				"setting_type":"call_to_actions",
 				"thread_state":"new_thread",
-				"call_to_actions":{[
-				    {
-				      "payload":"USER_DEFINED_PAYLOAD"
-				    }
-				  ]
+				"call_to_actions":[{ "payload":"Get started" }]
 			}
 		}, 
 		function(err,httpResponse,body){
@@ -230,12 +226,38 @@ var storage = require('./lib/mongoStorage');
 	  	// bot.reply(message, {
 	  	// 	"text": message.payload
 	  	// })
-		var surveyResponse = {
-			user: message.user,
-			answer: message.payload
-		};
-		console.log(surveyResponse);
-		// storage.create({})
+		var surveyResponse;
+
+		if(!message.payload === 'Get started'){
+			surveyResponse = {
+				user: message.user,
+				answer: message.payload
+			};
+			console.log(surveyResponse);
+			// storage.create({})
+		} else {
+			bot.reply(message, {
+		    	"attachment":{
+		    		"type":"template",
+					"payload":{
+						"template_type": "button",
+						"text": "Would you mind answering a few questions?",
+						"buttons":[
+							{
+								"type": "postback",
+								"title": "Let's get to it!",
+								"payload": "Yes"
+							},
+							{
+								"type": "postback",
+								"title": "Not interested.",
+								"payload": "No"
+							}
+						]
+					}
+				}
+			});
+		}
 	});
 
 	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
