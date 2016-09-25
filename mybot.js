@@ -157,8 +157,8 @@ var storage = require('./lib/mongoStorage');
 	});
 
 	app.post('/webhook', jsonParser, function (req, res) {
-		// console.log('FB REQUEST')
-		// console.log(req)
+		console.log('FB REQUEST')
+		console.log(req)
 		handler.FBhandler(req.body, bot)
 
 		res.send('ok')
