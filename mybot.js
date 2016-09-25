@@ -267,10 +267,35 @@ var builtinPhrases = require('./builtins');
 		console.log('HEARD question me.......');
 		console.log(message);
 		// start a conversation to handle this response.
+
+		var question1 = {
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type": "button",
+					"text": "What do you think about this bot?",
+					"buttons":[
+						{
+							// "type": "web_url",
+							// "url": "http://www.perisicdesigns.com",
+							"type": "postback",
+							"title": "This bot rocks",
+							"payload": "It rocks :P"
+						},
+						{
+							"type": "postback",
+							"title": "I'm not impressed",
+							"payload": "Not impreseed :("
+						}
+					]
+				}
+			}
+		};
+
 		bot.startConversation(message,function(err,convo) {
 			console.log('convo started');
 
-			convo.ask('How are you?',function(response,convo) {
+			convo.ask(question1, function(response,convo) {
 
 				convo.say('Cool, you said: ' + response.text);
 				convo.next();
@@ -278,27 +303,14 @@ var builtinPhrases = require('./builtins');
 			});
 
 		});
-
 	});
 
 	// try out the quick replies
 	// this could be the survey questions
 	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
-	  	bot.reply(message, {
-	  		"text":"Pick a color:",
-    		"quick_replies":[
-		      {
-		        "content_type":"text",
-		        "title":"Red",
-		        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-		      },
-		      {
-		        "content_type":"text",
-		        "title":"Green",
-		        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-		      }
-		    ]
-		});
+	  	bot.startConversation(message, function(err, convo){
+	  		convo.ask()
+	  	});
 	});
 
 	// listen for the phrase `shirt` and reply back with structured messages
