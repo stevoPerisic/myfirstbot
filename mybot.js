@@ -331,6 +331,11 @@ var storage = require('./lib/mongoStorage');
 			convo.on('end', function(convo) {
 				if (convo.status == 'completed') {
 					bot.reply(message, 'Thank you for participating in our survey!');
+
+					setTimeout(function() {
+                        process.exit();
+                    }, 3000);
+                    
 				} else {
 					// this happens if the conversation ended prematurely for some reason
 					bot.reply(message, 'Ooops something went wrong...');
