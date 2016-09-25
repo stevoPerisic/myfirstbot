@@ -255,7 +255,8 @@ var storage = require('./lib/mongoStorage');
 			};
 			console.log("Survey response: ");
 			console.log(surveyResponse);
-			// storage.create({})
+			storage.create(surveyResponse);
+			
 		} else {
 			return true;
 		}
