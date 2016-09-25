@@ -247,13 +247,14 @@ var storage = require('./lib/mongoStorage');
 					}
 				}
 			});
-		} else if(message.payload) {
-			bot.reply(message, "you selected: "+message.payload);
-			// surveyResponse = {
-			// 	user: message.user,
-			// 	answer: message.payload.surveyAnswer
-			// };
-			// console.log(surveyResponse);
+		} else if(message.payload.indexOf('Survey Answer: ') > 0) {
+			bot.reply(message, "you selected: "+message.payload.replace('Survey Answer: ', ''));
+			surveyResponse = {
+				user: message.user,
+				answer: message.payload.replace('Survey Answer: ', '')
+			};
+			console.log("Survey response: ");
+			console.log(surveyResponse);
 			// storage.create({})
 		} else {
 			return true;
@@ -377,12 +378,12 @@ var storage = require('./lib/mongoStorage');
 							// "url": "http://www.perisicdesigns.com",
 							"type": "postback",
 							"title": "This bot rocks",
-							"payload": "It rocks :P"
+							"payload": "Survey Answer: It rocks :P"
 						},
 						{
 							"type": "postback",
 							"title": "I'm not impressed",
-							"payload": "Not impresed :("
+							"payload": "Survey Answer: Not impresed :("
 						}
 					]
 				}
@@ -401,12 +402,12 @@ var storage = require('./lib/mongoStorage');
 							// "url": "http://www.perisicdesigns.com",
 							"type": "postback",
 							"title": "Red pill",
-							"payload": "Red pill"
+							"payload": "Survey Answer: Red pill"
 						},
 						{
 							"type": "postback",
 							"title": "Blue pill",
-							"payload": "Blue pill"
+							"payload": "Survey Answer: Blue pill"
 						}
 					]
 				}
@@ -417,16 +418,13 @@ var storage = require('./lib/mongoStorage');
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
-				setTimeout(convo.next, 1000)
-				// convo.next();
+				convo.next();
 			});
 
 			convo.ask(question2, function(response, convo){
-				setTimeout(convo.next, 1000)
-				// convo.next();
+				convo.next();
 			});
 
-			setTimeout(convo.stop, 1000);
 			// convo.stop();
 
 			convo.on('end', function(convo) {
