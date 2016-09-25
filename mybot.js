@@ -225,14 +225,7 @@ var storage = require('./lib/mongoStorage');
 	handler.controllerFB.on('facebook_postback', function (bot, message) {
 		var surveyResponse;
 
-		if(!message.payload === 'Get started'){
-			surveyResponse = {
-				user: message.user,
-				answer: message.payload
-			};
-			console.log(surveyResponse);
-			// storage.create({})
-		} else {
+		if(message.payload === 'Get started'){
 			bot.reply(message, {
 		    	"attachment":{
 		    		"type":"template",
@@ -254,12 +247,40 @@ var storage = require('./lib/mongoStorage');
 					}
 				}
 			});
+		} else if(message.payload.surveyAnswer) {
+			bot.reply(message, message.payload.surveyAnswer)
+			surveyResponse = {
+				user: message.user,
+				answer: message.payload.surveyAnswer
+			};
+			console.log(surveyResponse);
+			// storage.create({})
+		} else {
+			return true;
 		}
 	});
 
 	handler.controllerFB.hears(['Start Survey'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
-	    	"text":"Ok, let's start." 
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type": "button",
+					"text": "What do you like better, red or blue?",
+					"buttons":[
+						{
+							"type": "postback",
+							"title": "RED",
+							"payload": {"surveyAnswer": "RED"}
+						},
+						{
+							"type": "BLUE",
+							"title": "Not interested.",
+							"payload": {"surveyAnswer": "BLUE"}
+						}
+					]
+				}
+			}
 		});
 	});
 
