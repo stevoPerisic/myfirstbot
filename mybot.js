@@ -232,18 +232,30 @@ var storage = require('./lib/mongoStorage');
 					"payload":{
 						"template_type": "button",
 						"text": "Would you mind answering a few questions?",
-						"buttons":[
-							{
-								"type": "postback",
-								"title": "Let's get to it!",
-								"payload": "Start Survey"
-							},
-							{
-								"type": "postback",
-								"title": "Not interested.",
-								"payload": "Decline Survey"
-							}
-						]
+						"quick_replies":[
+					      {
+					        "content_type":"text",
+					        "title":"Red",
+					        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+					      },
+					      {
+					        "content_type":"text",
+					        "title":"Green",
+					        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+					      }
+					    ]
+						// "buttons":[
+						// 	{
+						// 		"type": "postback",
+						// 		"title": "Let's get to it!",
+						// 		"payload": "Start Survey"
+						// 	},
+						// 	{
+						// 		"type": "postback",
+						// 		"title": "Not interested.",
+						// 		"payload": "Decline Survey"
+						// 	}
+						// ]
 					}
 				}
 			});
