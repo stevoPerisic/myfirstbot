@@ -247,7 +247,7 @@ var storage = require('./lib/mongoStorage');
 					}
 				}
 			});
-		} else if(message.payload.indexOf('Survey Answer: ') > 0) {
+		} else if(message.payload.indexOf('Survey Answer: ') > -1) {
 			bot.reply(message, "you selected: "+message.payload.replace('Survey Answer: ', ''));
 			surveyResponse = {
 				user: message.user,
