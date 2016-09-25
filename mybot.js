@@ -417,12 +417,23 @@ var storage = require('./lib/mongoStorage');
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
-				convo.say('You replied '+response.payload);
+				convo.say('You selected: 'response.text);
 				convo.next();
 			});
 
 			convo.ask(question2, function(response, convo){
-				convo.next();
+				// convo.next();
+				convo.say('You selected: 'response.text);
+				convo.stop();
+			});
+
+			convo.on('end', function(convo) {
+				if (convo.status == 'completed') {
+					bot.reply(message, 'Thank you for participating in our survey!');
+				} else {
+					// this happens if the conversation ended prematurely for some reason
+					bot.reply(message, 'Ooops something went wrong...');
+				}
 			});
 
 		});
