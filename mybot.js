@@ -417,15 +417,17 @@ var storage = require('./lib/mongoStorage');
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
-				// convo.say('You selected: '+response.text);
-				convo.next();
+				setTimeout(convo.next, 1000)
+				// convo.next();
 			});
 
 			convo.ask(question2, function(response, convo){
+				setTimeout(convo.next, 1000)
 				// convo.next();
-				// convo.say('You selected: '+response.text);
-				convo.stop();
 			});
+
+			setTimeout(convo.stop, 1000);
+			// convo.stop();
 
 			convo.on('end', function(convo) {
 				if (convo.status == 'completed') {
