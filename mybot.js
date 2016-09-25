@@ -178,6 +178,27 @@ var storage = require('./lib/mongoStorage');
 	  }
 	);
 
+	// Set up the Get started button
+	request.post(
+		{
+			url:'https://graph.facebook.com/v2.6/me/thread_settings?access_token=' + process.env.FB_PAGE_ACCESS_TOKEN, 
+			form: {
+				"setting_type":"call_to_actions",
+				"thread_state":"new_thread",
+				"call_to_actions":{[
+				    {
+				      "payload":"USER_DEFINED_PAYLOAD"
+				    }
+				  ]
+			}
+		}, 
+		function(err,httpResponse,body){
+			console.log('From setting up the get started text.');
+			console.log(httpResponse);
+			console.log(body);
+		}
+	);
+
 	// Set up the Greeting text
 	request.post(
 		{
@@ -189,8 +210,10 @@ var storage = require('./lib/mongoStorage');
 				}
 			}
 		}, 
-		function(err,httpResponse,body){ 
-			
+		function(err,httpResponse,body){
+			console.log('From setting up the greeting page.');
+			console.log(httpResponse);
+			console.log(body);
 		}
 	);
 
