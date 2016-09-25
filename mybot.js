@@ -247,13 +247,13 @@ var storage = require('./lib/mongoStorage');
 					}
 				}
 			});
-		} else if(message.payload.surveyAnswer) {
-			bot.reply(message, message.payload.surveyAnswer)
-			surveyResponse = {
-				user: message.user,
-				answer: message.payload.surveyAnswer
-			};
-			console.log(surveyResponse);
+		} else if(message.payload) {
+			bot.reply(message, "you selected: "+message.payload);
+			// surveyResponse = {
+			// 	user: message.user,
+			// 	answer: message.payload.surveyAnswer
+			// };
+			// console.log(surveyResponse);
 			// storage.create({})
 		} else {
 			return true;
@@ -417,13 +417,13 @@ var storage = require('./lib/mongoStorage');
 			console.log('convo started');
 
 			convo.ask(question1, function(response,convo) {
-				convo.say('You selected: '+response.text);
+				// convo.say('You selected: '+response.text);
 				convo.next();
 			});
 
 			convo.ask(question2, function(response, convo){
 				// convo.next();
-				convo.say('You selected: '+response.text);
+				// convo.say('You selected: '+response.text);
 				convo.stop();
 			});
 
