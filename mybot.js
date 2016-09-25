@@ -19,14 +19,9 @@ var storage = require('./lib/mongoStorage');
 // Express server
 /*******************************/
 	app.get('/', function (req, res) {
-	  // res.send('Hello world');
-	  // var surveyResults = storage.read('survey_answers');
 	  storage.read('survey_answers', function(data){
 	  	res.send(data);
 	  });
-	  // console.log('Survey results are: ');
-	  // console.log(surveyResults);
-	  // res.send(surveyResults);
 	});
 
 	app.listen((process.env.PORT || 5000), function () {
@@ -269,35 +264,88 @@ var storage = require('./lib/mongoStorage');
 		}
 	});
 
-	handler.controllerFB.hears(['Start Survey'], 'message_received', function (bot, message) {
-	  	bot.reply(message, {
+	// Survey start
+	handler.controllerFB.hears(['Start Survey'], 'message_received', function (bot,message) {
+		// This is the start of the survey demo
+		// only created for the Monday demo
+
+		var question1 = {
 	    	"attachment":{
 	    		"type":"template",
 				"payload":{
 					"template_type": "button",
-					"text": "What do you like better, red or blue?",
+					"text": "What do you think about this bot?",
 					"buttons":[
 						{
+							// "type": "web_url",
+							// "url": "http://www.perisicdesigns.com",
 							"type": "postback",
-							"title": "RED",
-							"payload": "RED"
+							"title": "This bot rocks",
+							"payload": "Survey Answer: It rocks :P"
 						},
 						{
 							"type": "postback",
-							"title": "BLUE",
-							"payload": "BLUE"
+							"title": "I'm not impressed",
+							"payload": "Survey Answer: Not impresed :("
 						}
 					]
 				}
 			}
+		};
+
+		var question2 = {
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type": "button",
+					"text": "Which pill will you take, red or blue?",
+					"buttons":[
+						{
+							// "type": "web_url",
+							// "url": "http://www.perisicdesigns.com",
+							"type": "postback",
+							"title": "Red pill",
+							"payload": "Survey Answer: Red pill"
+						},
+						{
+							"type": "postback",
+							"title": "Blue pill",
+							"payload": "Survey Answer: Blue pill"
+						}
+					]
+				}
+			}
+		};
+
+		bot.startConversation(message,function(err,convo) {
+			console.log('convo started');
+
+			convo.ask(question1, function(response,convo) {
+				convo.next();
+			});
+
+			convo.ask(question2, function(response, convo){
+				convo.next();
+			});
+
+			convo.on('end', function(convo) {
+				if (convo.status == 'completed') {
+					bot.reply(message, 'Thank you for participating in our survey!');
+				} else {
+					// this happens if the conversation ended prematurely for some reason
+					bot.reply(message, 'Ooops something went wrong...');
+				}
+			});
+
 		});
 	});
-
+	
+	// Survey declined
 	handler.controllerFB.hears(['Decline Survey'], 'message_received', function (bot, message) {
 	  	bot.reply(message, {
 	    	"text":"Sorry to hear that." 
 		});
-	});	
+	});
 
 	// Text message
 	handler.controllerFB.hears(['Hello'], 'message_received', function (bot, message) {
@@ -365,85 +413,6 @@ var storage = require('./lib/mongoStorage');
 					]
 				}
 			}
-		});
-	});
-
-	// test FB conversation
-	handler.controllerFB.hears(['question me'], 'message_received', function (bot,message) {
-		console.log('HEARD question me.......');
-		console.log(message);
-		// start a conversation to handle this response.
-
-		var question1 = {
-	    	"attachment":{
-	    		"type":"template",
-				"payload":{
-					"template_type": "button",
-					"text": "What do you think about this bot?",
-					"buttons":[
-						{
-							// "type": "web_url",
-							// "url": "http://www.perisicdesigns.com",
-							"type": "postback",
-							"title": "This bot rocks",
-							"payload": "Survey Answer: It rocks :P"
-						},
-						{
-							"type": "postback",
-							"title": "I'm not impressed",
-							"payload": "Survey Answer: Not impresed :("
-						}
-					]
-				}
-			}
-		};
-
-		var question2 = {
-	    	"attachment":{
-	    		"type":"template",
-				"payload":{
-					"template_type": "button",
-					"text": "Which pill will you take, red or blue?",
-					"buttons":[
-						{
-							// "type": "web_url",
-							// "url": "http://www.perisicdesigns.com",
-							"type": "postback",
-							"title": "Red pill",
-							"payload": "Survey Answer: Red pill"
-						},
-						{
-							"type": "postback",
-							"title": "Blue pill",
-							"payload": "Survey Answer: Blue pill"
-						}
-					]
-				}
-			}
-		};
-
-		bot.startConversation(message,function(err,convo) {
-			console.log('convo started');
-
-			convo.ask(question1, function(response,convo) {
-				convo.next();
-			});
-
-			convo.ask(question2, function(response, convo){
-				convo.next();
-			});
-
-			// convo.stop();
-
-			convo.on('end', function(convo) {
-				if (convo.status == 'completed') {
-					bot.reply(message, 'Thank you for participating in our survey!');
-				} else {
-					// this happens if the conversation ended prematurely for some reason
-					bot.reply(message, 'Ooops something went wrong...');
-				}
-			});
-
 		});
 	});
 
