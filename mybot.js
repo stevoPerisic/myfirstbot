@@ -262,6 +262,25 @@ var builtinPhrases = require('./builtins');
 		});
 	});
 
+	// test FB conversation
+	handler.controllerFB.hears(['question me'], 'direct_message', function (bot,message) {
+		console.log('HEARD question me.......');
+		console.log(message);
+		// start a conversation to handle this response.
+		bot.startConversation(message,function(err,convo) {
+			console.log('convo started');
+
+			convo.ask('How are you?',function(response,convo) {
+
+				convo.say('Cool, you said: ' + response.text);
+				convo.next();
+
+			});
+
+		});
+
+	});
+
 	// try out the quick replies
 	// this could be the survey questions
 	handler.controllerFB.hears(['test survey'], 'message_received', function (bot, message) {
