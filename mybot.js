@@ -285,7 +285,7 @@ var builtinPhrases = require('./builtins');
 						{
 							"type": "postback",
 							"title": "I'm not impressed",
-							"payload": "Not impreseed :("
+							"payload": "Not impresed :("
 						}
 					]
 				}
@@ -297,7 +297,7 @@ var builtinPhrases = require('./builtins');
 
 			convo.ask(question1, function(response,convo) {
 
-				convo.say('Cool, you said: ' + response.text);
+				// convo.say('Cool, you said: ' + response.text);
 				convo.next();
 
 			});
