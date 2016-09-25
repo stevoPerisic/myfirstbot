@@ -189,9 +189,9 @@ var storage = require('./lib/mongoStorage');
 			}
 		}, 
 		function(err,httpResponse,body){
-			console.log('From setting up the get started text.');
-			console.log(httpResponse);
-			console.log(body);
+			if(err){
+				console.log(err);
+			}
 		}
 	);
 
@@ -207,9 +207,9 @@ var storage = require('./lib/mongoStorage');
 			}
 		}, 
 		function(err,httpResponse,body){
-			console.log('From setting up the greeting page.');
-			console.log(httpResponse);
-			console.log(body);
+			if(err){
+				console.log(err);
+			}
 		}
 	);
 
@@ -223,9 +223,6 @@ var storage = require('./lib/mongoStorage');
 	// POSTBACK handler
 	// THIS HAPPENS AFTER THE USER RESPONDS WITH A PAYLOAD
 	handler.controllerFB.on('facebook_postback', function (bot, message) {
-	  	// bot.reply(message, {
-	  	// 	"text": message.payload
-	  	// })
 		var surveyResponse;
 
 		if(!message.payload === 'Get started'){
@@ -246,12 +243,12 @@ var storage = require('./lib/mongoStorage');
 							{
 								"type": "postback",
 								"title": "Let's get to it!",
-								"payload": "Yes"
+								"payload": "Start Survey"
 							},
 							{
 								"type": "postback",
 								"title": "Not interested.",
-								"payload": "No"
+								"payload": "Decline Survey"
 							}
 						]
 					}
@@ -259,6 +256,18 @@ var storage = require('./lib/mongoStorage');
 			});
 		}
 	});
+
+	handler.controllerFB.hears(['Start Survey'], 'message_received', function (bot, message) {
+	  	bot.reply(message, {
+	    	"text":"Ok, let's start." 
+		});
+	});
+
+	handler.controllerFB.hears(['Decline Survey'], 'message_received', function (bot, message) {
+	  	bot.reply(message, {
+	    	"text":"Sorry to hear that." 
+		});
+	});	
 
 	// handler.controllerFB.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 	// 	bot.reply(message, 'Hello.');
