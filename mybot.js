@@ -263,7 +263,7 @@ var builtinPhrases = require('./builtins');
 	});
 
 	// test FB conversation
-	handler.controllerFB.hears(['question me'], 'direct_message', function (bot,message) {
+	handler.controllerFB.hears(['question me'], 'message_received', function (bot,message) {
 		console.log('HEARD question me.......');
 		console.log(message);
 		// start a conversation to handle this response.
