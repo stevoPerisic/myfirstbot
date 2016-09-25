@@ -423,7 +423,7 @@ var storage = require('./lib/mongoStorage');
 
 			convo.ask(question2, function(response, convo){
 				// convo.next();
-				convo.say('You selected: 'response.text);
+				convo.say('You selected: '+response.text);
 				convo.stop();
 			});
 
