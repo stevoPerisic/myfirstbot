@@ -277,19 +277,37 @@ var storage = require('./lib/mongoStorage');
 	    		"type":"template",
 				"payload":{
 					"template_type": "button",
-					"text": "What do you think about this bot?",
+					"text": "How would you rate the first part of your visit with Dr. Jones?",
 					"buttons":[
 						{
-							// "type": "web_url",
-							// "url": "http://www.perisicdesigns.com",
 							"type": "postback",
-							"title": "This bot rocks",
-							"payload": "Survey Answer: It rocks :P"
+							"title": "0",
+							"payload": "Survey Answer: 0"
 						},
 						{
 							"type": "postback",
-							"title": "I'm not impressed",
-							"payload": "Survey Answer: Not impresed :("
+							"title": "1",
+							"payload": "Survey Answer: 1"
+						}
+						{
+							"type": "postback",
+							"title": "2",
+							"payload": "Survey Answer: 2"
+						},
+						{
+							"type": "postback",
+							"title": "3",
+							"payload": "Survey Answer: 3"
+						},
+						{
+							"type": "postback",
+							"title": "4",
+							"payload": "Survey Answer: 4"
+						},
+						{
+							"type": "postback",
+							"title": "5",
+							"payload": "Survey Answer: 5"
 						}
 					]
 				}
@@ -301,7 +319,31 @@ var storage = require('./lib/mongoStorage');
 	    		"type":"template",
 				"payload":{
 					"template_type": "button",
-					"text": "Which pill will you take, red or blue?",
+					"text": "Based on your experience so far, would you refer a friend?",
+					"buttons":[
+						{
+							// "type": "web_url",
+							// "url": "http://www.perisicdesigns.com",
+							"type": "postback",
+							"title": "Red pill",
+							"payload": "Survey Answer: Red pill"
+						},
+						{
+							"type": "postback",
+							"title": "Blue pill",
+							"payload": "Survey Answer: Blue pill"
+						}
+					]
+				}
+			}
+		};
+
+		var question3 = {
+	    	"attachment":{
+	    		"type":"template",
+				"payload":{
+					"template_type": "button",
+					"text": "Is there anything special about your visit that we should know about?",
 					"buttons":[
 						{
 							// "type": "web_url",
