@@ -161,7 +161,7 @@ var storage = require('./lib/mongoStorage');
 
 	app.post('/webhook', jsonParser, function (req, res) {
 		console.log('FB REQUEST')
-		console.log(req)
+		// console.log(req)
 		handler.FBhandler(req.body, bot)
 
 		res.send('ok')
@@ -273,45 +273,7 @@ var storage = require('./lib/mongoStorage');
 		// only created for the Monday demo
 
 		var question1 = {
-	    	"attachment":{
-	    		"type":"template",
-				"payload":{
-					"template_type": "button",
-					"text": "How would you rate the first part of your visit with Dr. Jones?",
-					"buttons":[
-						{
-							"type": "postback",
-							"title": "0",
-							"payload": "Survey Answer: 0"
-						},
-						{
-							"type": "postback",
-							"title": "1",
-							"payload": "Survey Answer: 1"
-						},
-						{
-							"type": "postback",
-							"title": "2",
-							"payload": "Survey Answer: 2"
-						},
-						{
-							"type": "postback",
-							"title": "3",
-							"payload": "Survey Answer: 3"
-						},
-						{
-							"type": "postback",
-							"title": "4",
-							"payload": "Survey Answer: 4"
-						},
-						{
-							"type": "postback",
-							"title": "5",
-							"payload": "Survey Answer: 5"
-						}
-					]
-				}
-			}
+			"text": "On the scale of 1-5, how  would you rate the first part of your visit with Dr. Jones?"
 		};
 
 		var question2 = {
@@ -365,9 +327,18 @@ var storage = require('./lib/mongoStorage');
 		bot.startConversation(message,function(err,convo) {
 			console.log('convo started');
 
-			convo.ask(question1, function(response,convo) {
-				convo.next();
-			});
+			convo.ask(question1, [
+				{
+					pattern: '/\d/g', // digits
+					callback: function(response, convo){
+						convo.say('Thank you!');
+						console.log('Response --');
+						console.log(response);
+						// storage.create({user: response.user, answer: response.text});
+						convo.next();
+					}
+				}
+			]);
 
 			convo.ask(question2, function(response, convo){
 				convo.next();
