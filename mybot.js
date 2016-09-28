@@ -288,7 +288,7 @@ var storage = require('./lib/mongoStorage');
 							"type": "postback",
 							"title": "1",
 							"payload": "Survey Answer: 1"
-						}
+						},
 						{
 							"type": "postback",
 							"title": "2",
