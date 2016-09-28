@@ -337,7 +337,17 @@ var storage = require('./lib/mongoStorage');
 						// storage.create({user: response.user, answer: response.text});
 						convo.next();
 					}
-				}
+				},
+				{
+	                default: true,
+	                callback: function(response, convo) {
+	                    convo.say('Thank you!');
+	                    console.log('Response --');
+						console.log(response);
+	                    convo.repeat();
+	                    convo.next();
+	                }
+	            }
 			]);
 
 			convo.ask(question2, function(response, convo){
