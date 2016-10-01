@@ -329,7 +329,7 @@ var storage = require('./lib/mongoStorage');
 
 			convo.ask(question1, [
 				{
-					pattern: '/[0-9]/g', // digits
+					pattern: '5', // digits
 					callback: function(response, convo){
 						bot.reply('Thank you!');
 						console.log('Response --');
