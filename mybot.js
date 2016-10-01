@@ -331,7 +331,7 @@ var storage = require('./lib/mongoStorage');
 				{
 					pattern: '5', // digits
 					callback: function(response, convo){
-						bot.reply('Thank you!');
+						// bot.reply('Thank you!');
 						console.log('Response --');
 						console.log(response);
 						// storage.create({user: response.user, answer: response.text});
@@ -341,7 +341,7 @@ var storage = require('./lib/mongoStorage');
 				{
 	                default: true,
 	                callback: function(response, convo) {
-	                    bot.reply('I did not recognize that answer.');
+	                    // bot.reply('I did not recognize that answer.');
 	                    console.log('Response --');
 						console.log(response);
 	                    convo.repeat();
