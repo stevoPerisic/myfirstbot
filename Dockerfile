@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app 
 
 #install dependencies 
-RUN npm install --save 
+RUN npm install botkit --save 
 
 COPY mybot.js /usr/src/app/ 
 COPY package.json /usr/src/app/ 
