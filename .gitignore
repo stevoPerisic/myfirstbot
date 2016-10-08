@@ -4,3 +4,6 @@ node_modules
 
 # adding this file here so we will have to load these in Docker via a bash script
 .env
+
+# do no track these 
+*.mov
